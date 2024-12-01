@@ -2822,6 +2822,24 @@ QUnit.test('processScripts', function(assert) {
   }), output);
 });
 
+QUnit.test('processScripts application/ld+json', function(assert) {
+  var input = '<script type="application/ld+json">{"foo":  "bar"}\n\n</script>';
+  var output = '<script type="application/ld+json">{"foo":"bar"}</script>';
+  assert.equal(minify(input, {
+    collapseWhitespace: true,
+    processScripts: ['application/ld+json']
+  }), output);
+});
+
+QUnit.test('processScripts application/ld+json (invalid/malformed)', function(assert) {
+  var input = '<script type="application/ld+json">{"foo:  "bar"}\n\n</script>';
+  var output = '<script type="application/ld+json">{"foo:  "bar"}</script>';
+  assert.equal(minify(input, {
+    collapseWhitespace: true,
+    processScripts: ['application/ld+json']
+  }), output);
+});
+
 QUnit.test('ignore', function(assert) {
   var input, output;
 
