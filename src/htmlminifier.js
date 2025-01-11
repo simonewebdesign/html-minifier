@@ -389,7 +389,7 @@ function processScript(text, options, currentAttrs) {
   for (var i = 0, len = currentAttrs.length; i < len; i++) {
     if (currentAttrs[i].name.toLowerCase() === 'type' &&
         currentAttrs[i].value === 'application/ld+json') {
-      return minifyJson(text);
+      return minifyJson(text, options);
     }
 
     if (currentAttrs[i].name.toLowerCase() === 'type' &&
@@ -400,13 +400,12 @@ function processScript(text, options, currentAttrs) {
   return text;
 }
 
-function minifyJson(text) {
+function minifyJson(text, options) {
   try {
-    // Try parsing and re-stringifying the JSON
     return JSON.stringify(JSON.parse(text));
   }
-  catch (e) {
-    // If JSON is malformed, return the original text
+  catch (err) {
+    options.log(err);
     return text;
   }
 }
