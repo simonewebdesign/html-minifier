@@ -2840,6 +2840,15 @@ QUnit.test('processScripts application/ld+json (invalid/malformed)', function(as
   }), output);
 });
 
+QUnit.test('processScripts importmap', function(assert) {
+  var input = '<script type="importmap">\n{\n  "imports": {\n    "lodash": "/js/lodash.js",\n    "vue": "https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js"\n  }\n}\n</script>';
+  var output = '<script type="importmap">{"imports":{"lodash":"/js/lodash.js","vue":"https://cdn.jsdelivr.net/npm/vue@3/dist/vue.esm-browser.js"}}</script>';
+  assert.equal(minify(input, {
+    collapseWhitespace: true,
+    processScripts: ['importmap']
+  }), output);
+});
+
 QUnit.test('ignore', function(assert) {
   var input, output;
 

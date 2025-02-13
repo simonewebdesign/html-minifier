@@ -385,10 +385,19 @@ function cleanConditionalComment(comment, options) {
   }) : comment;
 }
 
+var JSON_SCRIPT_TYPES = [
+  'application/json',
+  'application/ld+json',
+  'application/manifest+json',
+  'application/vnd.geo+json',
+  'importmap',
+  'speculationrules',
+];
+
 function processScript(text, options, currentAttrs) {
   for (var i = 0, len = currentAttrs.length; i < len; i++) {
     if (currentAttrs[i].name.toLowerCase() === 'type' &&
-        currentAttrs[i].value === 'application/ld+json') {
+        JSON_SCRIPT_TYPES.indexOf(currentAttrs[i].value) > -1) {
       return minifyJson(text, options);
     }
 
